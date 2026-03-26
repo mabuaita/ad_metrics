@@ -129,9 +129,9 @@ and increments the request counter using .inc(). The labels allow you to filter 
 `# Start timer
 
     start_time = time.time()
-    if not city:
-        return jsonify({'error': 'City parameter is required'}), 400
-    response = cityweather(city)
+    if not data:
+        return jsonify({'error': 'Data is required'}), 400
+    response = data(data)
 
     duration = time.time() - start_time
     REQUEST_LATENCY.labels(method='GET', endpoint='/').observe(duration)
