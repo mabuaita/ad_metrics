@@ -1,0 +1,7 @@
+prometheus-flask-exporter
+requests
+json
+Flask
+Flask-CORS
+pyowm
+python-json-logger
