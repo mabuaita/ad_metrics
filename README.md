@@ -4,7 +4,11 @@ This is a ad metric that injests mobile devices ad research metrics and make the
 
 # Getting Started
 
-You need an api key from openweathermap, it's free unless you exceed the quota. Store the key in the ".env" file, it gets consumed by the app.
+The aim of this app is to accept search metrics from mobile users and to facilitate making it available to advertisors, two typs of metrics are captured, ad search terms and click through metrics, this diagram explains the process:
+
+![Ad Search Metrics](images/ad_metri<img width="1024" height="768" alt="ad_metrics" src="https://github.com/user-attachments/assets/886ed8f2-23f1-4931-82d5-b1eed2b3653d" />
+cs.png.png)
+
 
 **Installation**
 
