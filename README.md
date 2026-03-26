@@ -18,7 +18,8 @@ All that's needed is to clone this repository.
 
 # Features
 
-- Uses develop branch to track development, when a release is ready a merge to main/master is requested. 
+- Uses develop branch to track development, when a release is ready a merge to main/master is requested.
+- Developers use feature branches or bug-fix branches, which can be merged beck to develop branch.
 - For merge requests a jenkins job automaticlly initiates to test for untime resilience and framework mechanics.
 - Merge to main only if test job passes and peer review.
 - Instrumented to render metrics for prometheus to scape, http://ad-metrics.swhagy.com:8777/metrics.
@@ -29,12 +30,14 @@ All that's needed is to clone this repository.
 # Roadmap
 
 - Phase out jenkins and use gitaction instead.
+- Use external metrics, such as those from prometheus, to automatically scale the pods.
 - Add automated load test for each merge request, at the moment it's manual.
 - Implement more advanced configuration management, using tiered service levels, allowing for more frequent promethues scraping and tighter alerts threshold for higher level applications.
 
-# Availability
+# Availability/scalability
 
-- The app runs on a k8s bare-metal cluster, can increase the number of replicas.
+- The app runs on a k8s with elastic deployment that will scale up to 10 replicas, based on cpu usage. It is also configured to use multiple availablitiy zones.
+- The data is kept on S3, with version control and replication.
 - Istio is enabled for better recovery.
 
 ========================================================================================
