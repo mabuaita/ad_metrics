@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ad-app
+  template:
+    metadata:
+      labels:
+        app: ad-app
+    spec:
+      containers:
+      - name: ad-app
+        image: mabuaita/ci:ad-app
+        ports:
+        - containerPort: 8777
+        envFrom:
+        - secretRef:
+            name: ad-app
+      imagePullSecrets: # Reference the secret here
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-app
+spec:
+  ports:
+  - port: 80
+    targetPort: 8777
+    protocol: TCP
+  selector:
+    app: ad-app
+
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ad-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
