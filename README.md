@@ -14,18 +14,18 @@ All that's needed is to clone this repository.
 
 # Features
 
-- Renders weather information by city, example: https://weather.sezwizz.xyz/weather/paris. 
-- Caches the query for 30 minutes, refresh the query, you will notice the second response is jesonified, because it was retrived from redis.
-- Limits each user to 30 queries per hour, 200 per day.
-- Instrumented to render metrics for prometheus to scape, https://weather.sezwizz.xyz/metrics.
-- Health checker, https://weather.sezwizz.xyz/health.
-- Graceful shutdown, https://weather.sezwizz.xyz/shutdown.
+- Uses develop branch to track development, when a release is ready a merge to main/master is requested. 
+- For merge requests a jenkins job automaticlly initiates to test for untime resilience and framework mechanics.
+- Merge to main only if test job passes and peer review.
+- Instrumented to render metrics for prometheus to scape, http://ad-metrics.swhagy.com:8777/metrics.
+- Health checker, http://ad-metrics.swhagy.com:8777/health.
+- Graceful shutdown, http://ad-metrics.swhagy.com:8777/shutdown.
 - Log collection via Loki, uses structured logging (key/value pairs) for better usability: formatter = jsonlogger.JsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
 
 # Roadmap
 
-- Enable Genai be default, right now it's coded but disabled.
-- Implement Geo-location to render user current city by default.
+- Phase out jenkins and use gitaction instead.
+- Add automated load test for each merge request, at the moment it's manual.
 - Implement more advanced configuration management, using tiered service levels, allowing for more frequent promethues scraping and tighter alerts threshold for higher level applications.
 
 # Availability
@@ -56,17 +56,10 @@ All that's needed is to clone this repository.
      - job_name: 'api-gateway'
       static_configs:
       - targets:
-          - 'https://weather.sezwizz.xyz'
+          - 'http://ad-metrics.swhagy.com:8777'
         labels:
           service: 'weather-app'
           tier: 'frontend'
-
-      - job_name: 'redis'
-      static_configs:
-      - targets:
-          - 'redis-exporter-1:9121'
-        labels:
-          database: 'redis'
 
   **---------------------------------------------------------------------------------------------------**
 
